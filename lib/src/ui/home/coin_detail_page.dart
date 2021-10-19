@@ -31,8 +31,9 @@ class _CoinDetailPageState extends State<CoinDetailPage> {
       _coinDetail = _response.data;
       // print(_coinDetail);
       print("Success");
-      _isLoading = false;
-      setState(() {});
+      setState(() {
+        _isLoading = false;
+      });
     } on DioError catch (e) {
       String errorMessage = e.response!.data.toString();
       print("Error message : $errorMessage");
@@ -51,8 +52,9 @@ class _CoinDetailPageState extends State<CoinDetailPage> {
         case DioErrorType.other:
           break;
       }
-      _isLoading = false;
-      setState(() {});
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -101,264 +103,318 @@ class _CoinDetailPageState extends State<CoinDetailPage> {
                               letterSpacing: 1.5),
                         )),
                       ),
-                      (_isLoading == true)
-                          // Loading screen using shimmer (ongoing)
-                          ? CoinDetailShimmerWidget() // temporary
-                          : LiquidPullToRefresh(
-                              color: Colors.transparent,
-                              backgroundColor: Colors.black54,
-                              springAnimationDurationInMilliseconds: 500,
-                              showChildOpacityTransition: false,
-                              onRefresh: () async {
-                                setState(() {
-                                  // _loadShimmer = true;
-                                });
-                                // getCoinList();
-                              },
-                              child: Container(
+                      LiquidPullToRefresh(
+                        color: Colors.transparent,
+                        backgroundColor: Colors.black54,
+                        springAnimationDurationInMilliseconds: 500,
+                        showChildOpacityTransition: false,
+                        onRefresh: () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          await getCoinDetail();
+                        },
+                        child: (_isLoading == true)
+                            ? CoinDetailShimmerWidget()
+                            : Container(
                                 // color: Colors.red,
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 5),
                                 height: 600,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      // color: Colors.amber,
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            height: 40,
-                                            child: Image.network(
-                                                "${_coinDetail['image']['small']}]"),
-                                          ),
-                                          SizedBox(width: 6),
-                                          Text(
-                                            "${_coinDetail['name']} (${_coinDetail['symbol'].toUpperCase()})",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(width: 5),
-                                          Container(
-                                            // height: 30,
-                                            padding: EdgeInsets.all(5),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white54,
-                                                borderRadius:
-                                                    BorderRadius.circular(5)),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                    "#${_coinDetail['market_cap_rank']}",
-                                                    style: TextStyle(
-                                                        color: Colors.black54,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 14)),
-                                              ],
+                                child: CustomScrollView(
+                                  slivers: [
+                                    SliverList(
+                                        delegate: SliverChildListDelegate([
+                                      Container(
+                                        // color: Colors.amber,
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              height: 40,
+                                              width: 40,
+                                              child: Image.network(
+                                                  "${_coinDetail['image']['small']}]"),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Container(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 10),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            "\$${formatter.format(_coinDetail['market_data']['current_price']['usd'])}",
-                                            style: TextStyle(fontSize: 20),
-                                          ),
-                                          SizedBox(width: 6),
-                                          (_coinDetail['market_data'][
-                                                          'price_change_percentage_24h_in_currency']
-                                                      ['usd'] >
-                                                  0)
-                                              ? Row(
-                                                  children: [
-                                                    Icon(
-                                                        Icons
-                                                            .arrow_drop_up_sharp,
-                                                        color:
-                                                            Colors.green[600]),
-                                                    Text(
-                                                      "(${percentageFormat.format(_coinDetail['market_data']['price_change_percentage_24h_in_currency']['usd'])})%",
+                                            SizedBox(width: 6),
+                                            Text(
+                                              "${_coinDetail['name']} (${_coinDetail['symbol'].toUpperCase()})",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            SizedBox(width: 5),
+                                            Container(
+                                              // height: 30,
+                                              padding: EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white54,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                      "#${_coinDetail['market_cap_rank']}",
                                                       style: TextStyle(
-                                                          fontSize: 16,
+                                                          color: Colors.black54,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 14)),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              "\$${formatter.format(_coinDetail['market_data']['current_price']['usd'])}",
+                                              style: TextStyle(fontSize: 20),
+                                            ),
+                                            SizedBox(width: 6),
+                                            (_coinDetail['market_data'][
+                                                            'price_change_percentage_24h_in_currency']
+                                                        ['usd'] >
+                                                    0)
+                                                ? Row(
+                                                    children: [
+                                                      Icon(
+                                                          Icons
+                                                              .arrow_drop_up_sharp,
                                                           color: Colors
-                                                              .green[700]),
-                                                    ),
-                                                  ],
-                                                )
-                                              : Row(
-                                                  children: [
-                                                    Icon(
-                                                        Icons
-                                                            .arrow_drop_down_sharp,
-                                                        color: Colors.red),
-                                                    Text(
-                                                        "(${percentageFormat.format(_coinDetail['market_data']['price_change_percentage_24h_in_currency']['usd'])})%",
+                                                              .green[600]),
+                                                      Text(
+                                                        "(${percentageFormat.format(_coinDetail['market_data']['price_change_percentage_24h_in_currency']['usd'])}%)",
                                                         style: TextStyle(
                                                             fontSize: 16,
-                                                            color: Colors.red)),
-                                                  ],
-                                                ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 10),
-                                      child: (_coinDetail['market_data']
-                                                  ['price_change_24h'] >
-                                              0)
-                                          ? Text(
-                                              (_coinDetail['market_data']
-                                                              ['current_price']
-                                                          ['usd'] <
-                                                      2)
-                                                  ? "${formatter.format(_coinDetail['market_data']['price_change_24h'])}"
-                                                  : "${percentageFormat.format(_coinDetail['market_data']['price_change_24h'])}",
-                                              style: TextStyle(
-                                                  color: Colors.green[700]),
-                                            )
-                                          : Text(
-                                              (_coinDetail['market_data']
-                                                              ['current_price']
-                                                          ['usd'] <
-                                                      2)
-                                                  ? "${formatter.format(_coinDetail['market_data']['price_change_24h'])}"
-                                                  : "${percentageFormat.format(_coinDetail['market_data']['price_change_24h'])}",
-                                              style:
-                                                  TextStyle(color: Colors.red),
-                                            ),
-                                    ),
-                                    Divider(
-                                        color: Colors.white54, thickness: 2),
-                                    SizedBox(height: 10),
-                                    Container(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            child: Row(children: [
-                                              Text("High 24H"),
-                                              Spacer(),
-                                              Text(
-                                                  "\$${formatter.format(_coinDetail['market_data']['high_24h']['usd'])}")
-                                            ]),
-                                          ),
-                                          SizedBox(height: 5),
-                                          Container(
-                                            child: Row(children: [
-                                              Text("Low 24H"),
-                                              Spacer(),
-                                              Text(
-                                                  "\$${formatter.format(_coinDetail['market_data']['low_24h']['usd'])}")
-                                            ]),
-                                          ),
-                                          Divider(
-                                              color: Colors.white54,
-                                              thickness: 2),
-                                          SizedBox(height: 5),
-                                          Container(
-                                            child: Row(children: [
-                                              Text("Market Cap"),
-                                              Spacer(),
-                                              Text(
-                                                  "\$${formatter.format(_coinDetail['market_data']['market_cap']['usd'])}")
-                                            ]),
-                                          ),
-                                          SizedBox(height: 5),
-                                          Container(
-                                            child: Row(children: [
-                                              Text("24H Trading Volume"),
-                                              Spacer(),
-                                              Text(
-                                                  "\$${formatter.format(_coinDetail['market_data']['total_volume']['usd'])}")
-                                            ]),
-                                          ),
-                                          SizedBox(height: 5),
-                                          Container(
-                                            child: Row(children: [
-                                              Text("Circulation Supply"),
-                                              Spacer(),
-                                              Text(
-                                                  "\$${formatter.format(_coinDetail['market_data']['circulating_supply'])}")
-                                            ]),
-                                          ),
-                                          SizedBox(height: 5),
-                                          Container(
-                                            child: Row(children: [
-                                              Text("Total Supply"),
-                                              Spacer(),
-                                              Text((_coinDetail['market_data']
-                                                          ['total_supply'] ==
-                                                      null)
-                                                  ? "-"
-                                                  : "${_coinDetail['market_data']['total_supply']}")
-                                            ]),
-                                          ),
-                                          SizedBox(height: 5),
-                                          Container(
-                                            child: Row(children: [
-                                              Text("Max Supply"),
-                                              Spacer(),
-                                              Text((_coinDetail['market_data']
-                                                          ['max_supply'] ==
-                                                      null)
-                                                  ? "-"
-                                                  : "${_coinDetail['market_data']['max_supply']}")
-                                            ]),
-                                          ),
-                                          Divider(
-                                              color: Colors.white54,
-                                              thickness: 2),
-                                          SizedBox(height: 5),
-                                          Container(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Description",
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                SizedBox(height: 5),
-                                                Container(
-                                                  height: 255,
-                                                  child: SingleChildScrollView(
-                                                    child: Text(
-                                                        "${_coinDetail['description']['en']}"),
+                                                            color: Colors
+                                                                .green[700]),
+                                                      ),
+                                                    ],
+                                                  )
+                                                : Row(
+                                                    children: [
+                                                      Icon(
+                                                          Icons
+                                                              .arrow_drop_down_sharp,
+                                                          color: Colors.red),
+                                                      Text(
+                                                          "(${percentageFormat.format(_coinDetail['market_data']['price_change_percentage_24h_in_currency']['usd'])}%)",
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              color:
+                                                                  Colors.red)),
+                                                    ],
                                                   ),
-                                                )
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 3),
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: (_coinDetail['market_data']
+                                                    ['price_change_24h'] >
+                                                0)
+                                            ? Text(
+                                                (_coinDetail['market_data'][
+                                                                'current_price']
+                                                            ['usd'] <
+                                                        2)
+                                                    ? "+${formatter.format(_coinDetail['market_data']['price_change_24h'])}"
+                                                    : "+${percentageFormat.format(_coinDetail['market_data']['price_change_24h'])}",
+                                                style: TextStyle(
+                                                    color: Colors.green[700]),
+                                              )
+                                            : Text(
+                                                (_coinDetail['market_data'][
+                                                                'current_price']
+                                                            ['usd'] <
+                                                        2)
+                                                    ? "${formatter.format(_coinDetail['market_data']['price_change_24h'])}"
+                                                    : "${percentageFormat.format(_coinDetail['market_data']['price_change_24h'])}",
+                                                style: TextStyle(
+                                                    color: Colors.red),
+                                              ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Container(
+                                          width: double.infinity,
+                                          height: 25,
+                                          child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: _coinDetail['categories']
+                                                .length,
+                                            itemBuilder: (context, i) => Row(
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                                  alignment: Alignment.center,
+                                                  height: 25,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.black26,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              7)),
+                                                  child: Text(
+                                                      "${_coinDetail['categories'][i]}",
+                                                      style: TextStyle(
+                                                          color: Colors.white54,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                ),
+                                                SizedBox(width: 5),
                                               ],
                                             ),
+                                          )),
+                                      Divider(
+                                          color: Colors.white54, thickness: 2),
+                                      SizedBox(height: 10),
+                                      SingleChildScrollView(
+                                        child: Container(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                child: Row(children: [
+                                                  Text("High 24H"),
+                                                  Spacer(),
+                                                  Text(
+                                                      "\$${formatter.format(_coinDetail['market_data']['high_24h']['usd'])}")
+                                                ]),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Container(
+                                                child: Row(children: [
+                                                  Text("Low 24H"),
+                                                  Spacer(),
+                                                  Text(
+                                                      "\$${formatter.format(_coinDetail['market_data']['low_24h']['usd'])}")
+                                                ]),
+                                              ),
+                                              Divider(
+                                                  color: Colors.white54,
+                                                  thickness: 2),
+                                              SizedBox(height: 5),
+                                              Container(
+                                                child: Row(children: [
+                                                  Text("All Time High"),
+                                                  Spacer(),
+                                                  Text(
+                                                      "\$${formatter.format(_coinDetail['market_data']['ath']['usd'])}")
+                                                ]),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Container(
+                                                child: Row(children: [
+                                                  Text("Market Cap"),
+                                                  Spacer(),
+                                                  Text(
+                                                      "\$${formatter.format(_coinDetail['market_data']['market_cap']['usd'])}")
+                                                ]),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Container(
+                                                child: Row(children: [
+                                                  Text("24H Trading Volume"),
+                                                  Spacer(),
+                                                  Text(
+                                                      "\$${formatter.format(_coinDetail['market_data']['total_volume']['usd'])}")
+                                                ]),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Container(
+                                                child: Row(children: [
+                                                  Text("Circulation Supply"),
+                                                  Spacer(),
+                                                  Text(
+                                                      "\$${formatter.format(_coinDetail['market_data']['circulating_supply'])}")
+                                                ]),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Container(
+                                                child: Row(children: [
+                                                  Text("Total Supply"),
+                                                  Spacer(),
+                                                  Text((_coinDetail[
+                                                                  'market_data']
+                                                              [
+                                                              'total_supply'] ==
+                                                          null)
+                                                      ? "-"
+                                                      : "${_coinDetail['market_data']['total_supply']}")
+                                                ]),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Container(
+                                                child: Row(children: [
+                                                  Text("Max Supply"),
+                                                  Spacer(),
+                                                  Text((_coinDetail[
+                                                                  'market_data']
+                                                              ['max_supply'] ==
+                                                          null)
+                                                      ? "-"
+                                                      : "${_coinDetail['market_data']['max_supply']}")
+                                                ]),
+                                              ),
+                                              Divider(
+                                                  color: Colors.white54,
+                                                  thickness: 2),
+                                              SizedBox(height: 5),
+                                              Container(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Description",
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    SizedBox(height: 5),
+                                                    Container(
+                                                      height: 250,
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        child: Text((_coinDetail[
+                                                                        'description']
+                                                                    ['en'] ==
+                                                                "")
+                                                            ? "-"
+                                                            : "${_coinDetail['description']['en']}"),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
+                                    ]))
                                   ],
                                 ),
                               ),
-                            ),
+                      ),
                     ]),
                   ),
                   SliverFillRemaining(

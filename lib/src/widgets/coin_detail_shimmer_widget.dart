@@ -11,112 +11,160 @@ class CoinDetailShimmerWidget extends StatelessWidget {
     return Container(
       height: 600,
       child: Shimmer.fromColors(
-        baseColor: Colors.grey,
+        baseColor: Colors.black54,
         highlightColor: Colors.white,
-        child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, i) {
-              return Container(
-                  child: Container(
-                // color: Colors.blue,
-                height: 75,
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                margin: EdgeInsets.symmetric(vertical: 2),
+        child: Container(
+          // color: Colors.red,
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          height: 600,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                // color: Colors.amber,
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      width: 30,
-                      color: Colors.grey,
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          color: Colors.black54,
+                          borderRadius: BorderRadius.circular(30)),
                     ),
-                    Expanded(
-                      child: Container(
-                        // height: 50,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        // margin: EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(color: Colors.white24),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 30,
-                              width: 30,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(width: 5),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 100,
-                                  height: 12,
-                                  color: Colors.grey,
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Container(
-                                  width: 100,
-                                  height: 12,
-                                  color: Colors.grey,
-                                ),
-                              ],
-                            ),
-                            Spacer(),
-                            Container(
-                              width: 80,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 80,
-                                    height: 12,
-                                    color: Colors.grey,
-                                  ),
-                                  SizedBox(height: 3),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        width: 30,
-                                        height: 7,
-                                        color: Colors.grey,
-                                      ),
-                                      Spacer(),
-                                      Container(
-                                        width: 30,
-                                        height: 7,
-                                        color: Colors.grey,
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        width: 30,
-                                        height: 7,
-                                        color: Colors.grey,
-                                      ),
-                                      Spacer(),
-                                      Container(
-                                        width: 30,
-                                        height: 7,
-                                        color: Colors.grey,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                    SizedBox(width: 6),
+                    Container(width: 200, height: 25, color: Colors.black54),
+                    SizedBox(width: 5),
+                  ],
+                ),
+              ),
+              SizedBox(height: 5),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Container(width: 150, height: 20, color: Colors.black54),
+              ),
+              SizedBox(height: 3),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Container(width: 100, height: 15, color: Colors.black54),
+              ),
+              SizedBox(height: 5),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: [
+                    Container(width: 100, height: 25, color: Colors.black54),
+                    SizedBox(width: 5),
+                    Container(width: 100, height: 25, color: Colors.black54),
+                  ],
+                ),
+              ),
+              Divider(color: Colors.white54, thickness: 2),
+              SizedBox(height: 10),
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Row(children: [
+                        Container(width: 50, height: 14, color: Colors.black54),
+                        Spacer(),
+                        Container(width: 90, height: 14, color: Colors.black54),
+                      ]),
+                    ),
+                    SizedBox(height: 5),
+                    Container(
+                      child: Row(children: [
+                        Container(width: 50, height: 14, color: Colors.black54),
+                        Spacer(),
+                        Container(width: 90, height: 14, color: Colors.black54),
+                      ]),
+                    ),
+                    Divider(color: Colors.white54, thickness: 2),
+                    SizedBox(height: 5),
+                    Container(
+                      child: Row(children: [
+                        Container(
+                            width: 100, height: 14, color: Colors.black54),
+                        Spacer(),
+                        Container(
+                            width: 100, height: 14, color: Colors.black54),
+                      ]),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      child: Row(children: [
+                        Container(width: 90, height: 14, color: Colors.black54),
+                        Spacer(),
+                        Container(
+                            width: 150, height: 14, color: Colors.black54),
+                      ]),
+                    ),
+                    SizedBox(height: 5),
+                    Container(
+                      child: Row(children: [
+                        Container(
+                            width: 150, height: 14, color: Colors.black54),
+                        Spacer(),
+                        Container(
+                            width: 120, height: 14, color: Colors.black54),
+                      ]),
+                    ),
+                    SizedBox(height: 5),
+                    Container(
+                      child: Row(children: [
+                        Container(
+                            width: 120, height: 14, color: Colors.black54),
+                        Spacer(),
+                        Container(
+                            width: 110, height: 14, color: Colors.black54),
+                      ]),
+                    ),
+                    SizedBox(height: 5),
+                    Container(
+                      child: Row(children: [
+                        Container(
+                            width: 110, height: 14, color: Colors.black54),
+                        Spacer(),
+                        Container(
+                            width: 100, height: 14, color: Colors.black54),
+                      ]),
+                    ),
+                    SizedBox(height: 5),
+                    Container(
+                      child: Row(children: [
+                        Container(
+                            width: 100, height: 14, color: Colors.black54),
+                        Spacer(),
+                        Container(
+                            width: 100, height: 14, color: Colors.black54),
+                      ]),
+                    ),
+                    Divider(color: Colors.white54, thickness: 2),
+                    SizedBox(height: 5),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              width: 100, height: 20, color: Colors.black54),
+                          SizedBox(height: 5),
+                          Container(
+                              width: double.infinity,
+                              height: 220,
+                              color: Colors.black54),
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ));
-            }),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
       } else {
         if (_startTime == 0) {
           getCoinList();
-          refreshWithTimer(30, true);
+          // refreshWithTimer(30, true);
         } else {
           // setState(() {
           setState(() {
@@ -72,6 +72,7 @@ class _HomePageState extends State<HomePage> {
       }
       print("Success");
       _isLoading = false;
+
       setState(() {});
     } on DioError catch (e) {
       String errorMessage = e.response!.data.toString();
@@ -106,7 +107,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // refreshWithTimer(30, true);
+    // refreshWithTimer(10, true);
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -155,24 +156,23 @@ class _HomePageState extends State<HomePage> {
                               letterSpacing: 1.5),
                         )),
                       ),
-                      (_isLoading == true)
-                          // Loading screen using shimmer (ongoing)
-                          ? CoinListShimmerWidget()
-                          : LiquidPullToRefresh(
-                              color: Colors.transparent,
-                              backgroundColor: Colors.black54,
-                              springAnimationDurationInMilliseconds: 500,
-                              showChildOpacityTransition: false,
-                              onRefresh: () async {
-                                setState(() {
-                                  _isLoading = true;
-                                  _itemPerPage = 1;
-                                  _currentMax = 10;
-                                  _listCoin.clear();
-                                });
-                                await getCoinList();
-                              },
-                              child: Container(
+                      LiquidPullToRefresh(
+                        color: Colors.transparent,
+                        backgroundColor: Colors.black54,
+                        springAnimationDurationInMilliseconds: 500,
+                        showChildOpacityTransition: false,
+                        onRefresh: () async {
+                          setState(() {
+                            _isLoading = true;
+                            _itemPerPage = 1;
+                            _currentMax = 10;
+                            _listCoin.clear();
+                          });
+                          await getCoinList();
+                        },
+                        child: (_isLoading == true)
+                            ? CoinListShimmerWidget()
+                            : Container(
                                 // color: Colors.red,
                                 height: 600,
                                 child: Container(
@@ -213,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                                                   color: Colors.black38,
                                                   child: Center(
                                                     child: Text(
-                                                      "${_listCoin[i]['market_cap_rank']}",
+                                                      "${i + 1}",
                                                       style: TextStyle(
                                                           color: Colors.white70,
                                                           fontWeight:
@@ -238,6 +238,7 @@ class _HomePageState extends State<HomePage> {
                                                       children: [
                                                         Container(
                                                           height: 25,
+                                                          width: 25,
                                                           child: Image.network(
                                                               "${_listCoin[i]['image']}"),
                                                         ),
@@ -386,7 +387,7 @@ class _HomePageState extends State<HomePage> {
                                       }),
                                 ),
                               ),
-                            ),
+                      ),
                     ]),
                   ),
                   SliverFillRemaining(
