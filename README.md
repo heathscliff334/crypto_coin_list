@@ -3,4 +3,6 @@
 This is a cryptocurrency coin list, built with flutter and CoinGecko API
 
 ## App Preview
-<img src="https://github.com/heathscliff334/flutter_web_cv_portfolio/blob/master/screenshot/Screenshot_1.png" width="50%">
+<img src="https://github.com/heathscliff334/crypto_coin_list/blob/master/screenshots/screenshot_1.jpg" width="50%">
+<img src="https://github.com/heathscliff334/crypto_coin_list/blob/master/screenshots/screenshot_1.jpg" width="50%">
+
